@@ -11,7 +11,10 @@ import {
   Text,
 } from 'react-native';
 import { Container } from 'native-base';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import Head from './src/components/Head';
+import reducers from './src/reducers';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -23,18 +26,21 @@ const instructions = Platform.select({
 export default class App extends Component {
   render() {
     return (
-      <Container>
-        <Head title={'Manager'} />
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </Container>
+      <Provider store={createStore(reducers)}>
+        <Container>
+          <Head title={'Manager'} />
+          <Text style={styles.welcome}>
+            Welcome to React Native!
+          </Text>
+          <Text style={styles.instructions}>
+            To get started, edit App.js
+          </Text>
+          <Text style={styles.instructions}>
+            {instructions}
+          </Text>
+        </Container>
+      </Provider>
+      
     );
   }
 }
