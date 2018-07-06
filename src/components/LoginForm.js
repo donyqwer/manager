@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Form, Item, Label, Input, Content, Button, Text } from 'native-base';
+import { connect } from 'react-redux';
+import { emailChanged } from '../actions';
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
+	onEmailChange(text) {
+		this.props.emailChanged(text);
+	}
+	
   render() {
     return (
 			<Card>
@@ -10,7 +16,9 @@ export default class LoginForm extends Component {
 						<Form>
 							<Item floatingLabel>
 								<Label>Email</Label>
-								<Input />
+								<Input 
+									onChangeText={this.onEmailChange.bind(this)}
+								/>
 							</Item>
 							<Item floatingLabel last>
 								<Label>Password</Label>
@@ -32,3 +40,5 @@ export default class LoginForm extends Component {
     );
   }
 }
+
+export default connect(null, { emailChanged })(LoginForm);
