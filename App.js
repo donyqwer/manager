@@ -7,8 +7,9 @@
 import React, { Component } from 'react';
 import { Container, Content } from 'native-base';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import firebase from 'firebase';
+import ReduxThunk from 'redux-thunk';
 import Head from './src/components/Head';
 import reducers from './src/reducers';
 import LoginForm from './src/components/LoginForm';
@@ -27,7 +28,7 @@ export default class App extends Component {
   }
   render() {
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
         <Container>
           <Head title={'Manager'} />
           <Content padder>
