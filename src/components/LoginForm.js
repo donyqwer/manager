@@ -59,16 +59,18 @@ class LoginForm extends Component {
 							<CardItem>
 								<Content>
 									<Form>
-										<Item floatingLabel>
-											<Label>Email</Label>
+										<Item fixedLabel>
+											<Label style={{ color: 'black' }}>Email</Label>
 											<Input 
+												placeholder={'john@example.com'}
 												onChangeText={this.onEmailChange.bind(this)}
 												value={this.props.email}
 											/>
 										</Item>
-										<Item floatingLabel last>
-											<Label>Password</Label>
+										<Item fixedLabel last>
+											<Label style={{ color: 'black' }}>Password</Label>
 											<Input 
+												placeholder={'password'}
 												secureTextEntry
 												onChangeText={this.onPasswordChange.bind(this)}
 												value={this.props.password}
