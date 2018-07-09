@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, CardItem, Form, Item, Label,
-	Input, Content, Button, Text, View, Spinner } from 'native-base';
+	Input, Content, Button, Text, View, Spinner, Container } from 'native-base';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
+import Head from './Head';
 
 class LoginForm extends Component {
 	constructor(props) {
@@ -30,7 +31,7 @@ class LoginForm extends Component {
 	renderError() {
 		if (this.props.error) {
 			return (
-				<View style={{ flex: 1, alignItems: 'center' }}>
+				<View style={{ alignItems: 'center' }}>
 					<Text style={styles.txtError}>{this.props.error}</Text>
 				</View>
 			);
@@ -51,35 +52,40 @@ class LoginForm extends Component {
 	
   render() {
     return (
-			<Card>
-				<CardItem>
-					<Content>
-						<Form>
-							<Item floatingLabel>
-								<Label>Email</Label>
-								<Input 
-									onChangeText={this.onEmailChange.bind(this)}
-									value={this.props.email}
-								/>
-							</Item>
-							<Item floatingLabel last>
-								<Label>Password</Label>
-								<Input 
-									secureTextEntry
-									onChangeText={this.onPasswordChange.bind(this)}
-									value={this.props.password}
-								/>
-							</Item>
-						</Form>
-					</Content>
-				</CardItem>
-				{this.renderError()}
-				<CardItem>
-					<Content>
-						{this.renderButton()}
-					</Content>
-				</CardItem>
-			</Card>
+			<Container>
+          <Head title={'Manager'} />
+          <Content padder>
+						<Card>
+							<CardItem>
+								<Content>
+									<Form>
+										<Item floatingLabel>
+											<Label>Email</Label>
+											<Input 
+												onChangeText={this.onEmailChange.bind(this)}
+												value={this.props.email}
+											/>
+										</Item>
+										<Item floatingLabel last>
+											<Label>Password</Label>
+											<Input 
+												secureTextEntry
+												onChangeText={this.onPasswordChange.bind(this)}
+												value={this.props.password}
+											/>
+										</Item>
+									</Form>
+								</Content>
+							</CardItem>
+							{this.renderError()}
+							<CardItem>
+								<Content>
+									{this.renderButton()}
+								</Content>
+							</CardItem>
+						</Card>
+          </Content>
+      </Container>
     );
   }
 }
