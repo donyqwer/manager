@@ -1,27 +1,34 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardItem, Button, Title, Spinner } from 'native-base';
-import { employeeUpdate, employeeCreate } from '../actions';
+import { Card, CardItem, Spinner, Button, Title } from 'native-base';
 import EmployeeForm from './EmployeeForm';
+import { employeeUpdate } from '../actions';
 
-class EmployeeCreate extends Component {
-  onButtonPress() {
-    const { name, phone, shift } = this.props;
-    this.props.employeeCreate({ name, phone, shift: shift || 'monday' });
-  }
+class EmployeeEdit extends Component {
+	componentWillMount() {
+		_.each(this.props.employee, (value, prop) => {
+			this.props.employeeUpdate({ prop, value });
+		});
+	}
 
-  renderButton() {
+	onButtonSave() {
+		const { name, phone, shift, loading } = this.props;
+		console.log(name, phone, shift, loading);
+	}
+
+	renderButton() {
 		if (this.props.loading) {
 			return <Spinner color='green' style={{ justifyContent: 'center', flex: 1 }} />;
 		}
 
 		return (
-			<Button block style={{ flex: 1 }} onPress={this.onButtonPress.bind(this)}>
-        <Title>Create</Title>
+			<Button block style={{ flex: 1 }} onPress={this.onButtonSave.bind(this)}>
+        <Title>Save</Title>
       </Button>
 		);
 	}
- 
+
   render() {
     return (
       <Card style={{ flex: 0, paddingBottom: 10 }}>
@@ -40,4 +47,4 @@ const mapStateToProps = ({ employeeForm }) => {
   return { name, phone, shift, loading };
 };
 
-export default connect(mapStateToProps, { employeeUpdate, employeeCreate })(EmployeeCreate);
+export default connect(mapStateToProps, { employeeUpdate })(EmployeeEdit);
