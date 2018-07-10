@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Content, Container, } from 'native-base';
+import { Content, Container, Spinner, } from 'native-base';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { ListView } from 'react-native';
@@ -27,17 +27,25 @@ class EmployeeList extends Component {
     return <EmployeeListItem employee={employee} />;
   }
 
+  renderList() {
+    if (this.props.loading) {
+      return <Spinner color='green' />;
+    }
+    return (
+      <ListView
+        style={{ backgroundColor: '#ffffff' }}
+        enableEmptySections
+        dataSource={this.dataSource}
+        renderRow={this.renderRow}
+      />
+    );
+  }
+
   render() {
-    console.log(this.props);
     return (
       <Container>
         <Content>          
-          <ListView
-          style={{ backgroundColor: '#ffffff' }}
-          enableEmptySections
-          dataSource={this.dataSource}
-          renderRow={this.renderRow}
-          />
+          {this.renderList()}
         </Content>
       </Container>
     );
@@ -45,10 +53,11 @@ class EmployeeList extends Component {
 }
 
 const mapStateToProps = state => {
+  const { loading } = state.employees;
   const employees = _.map(state.employees, (val, uid) => {
     return { ...val, uid };
   });
-  return { employees };
+  return { employees, loading };
 };
 
 export default connect(mapStateToProps, { employeeFetch })(EmployeeList);
