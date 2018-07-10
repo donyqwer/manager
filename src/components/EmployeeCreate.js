@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardItem, Item, Label, Input, Button, Title, Picker, Icon } from 'native-base';
-import { employeeUpdate } from '../actions';
+import { Card, CardItem, Item, Label,
+  Input, Button, Title, Picker, Icon, Spinner } from 'native-base';
+import { employeeUpdate, employeeCreate } from '../actions';
 
 class EmployeeCreate extends Component {
+  onButtonPress() {
+    const { name, phone, shift } = this.props;
+    this.props.employeeCreate({ name, phone, shift: shift || 'monday' });
+  }
+
+  renderButton() {
+		if (this.props.loading) {
+			return <Spinner color='green' style={{ justifyContent: 'center', flex: 1 }} />;
+		}
+
+		return (
+			<Button block style={{ flex: 1 }} onPress={this.onButtonPress.bind(this)}>
+        <Title>Create</Title>
+      </Button>
+		);
+	}
  
   render() {
     return (
@@ -48,9 +65,7 @@ class EmployeeCreate extends Component {
           </Item>
         </CardItem>
         <CardItem>
-          <Button block style={{ flex: 1 }} onPress={() => console.log(this.props)}>
-            <Title>Create</Title>
-          </Button>
+          {this.renderButton()}
         </CardItem>
       </Card>
     );
@@ -58,9 +73,9 @@ class EmployeeCreate extends Component {
 }
 
 const mapStateToProps = ({ employeeForm }) => {
-  const { name, phone, shift } = employeeForm;
+  const { name, phone, shift, loading } = employeeForm;
 
-  return { name, phone, shift };
+  return { name, phone, shift, loading };
 };
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
+export default connect(mapStateToProps, { employeeUpdate, employeeCreate })(EmployeeCreate);
